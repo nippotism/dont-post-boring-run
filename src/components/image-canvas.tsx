@@ -15,6 +15,7 @@ const TEMPLATE_SIZES = {
   Modern: [800, 800],
   Elegant: [800, 800],
   Elegant2: [800, 800],
+
 };
 
 const PREVIEW_SIZE = 360; // CSS preview size
@@ -110,7 +111,7 @@ function drawMinimal(ctx: CanvasRenderingContext2D, activity: ActivityData, widt
     height / 2 + 70
   );
 
-  drawPolyline(ctx, activity.polyline ?? [], { width, height }, {
+  drawPolyline(ctx, activity.polyline ?? [], ctx.canvas, {
     x: width / 2 - 110,
     y: 180,
     w: 220,
@@ -161,7 +162,7 @@ function drawModern(ctx: CanvasRenderingContext2D, activity: ActivityData, width
   ctx.stroke();
 
   // Draw polyline below the stats
-  drawPolyline(ctx, activity.polyline ?? [], { width, height }, {
+  drawPolyline(ctx, activity.polyline ?? [], ctx.canvas, {
     x: width / 2 - 110,
     y: centerY -230, // slightly below values
     w: 220,
@@ -196,7 +197,7 @@ function drawElegant(ctx: CanvasRenderingContext2D, activity: ActivityData, widt
   ctx.font = "italic 30px Quintessential";
   ctx.fillText(`${timeConverter(activity.moving_time)}`, width / 2, 360);
 
-  drawPolyline(ctx, activity.polyline ?? [], { width, height }, {
+  drawPolyline(ctx, activity.polyline ?? [], ctx.canvas, {
     x: width / 2 - 75,
     y: 410,
     w: 150,
