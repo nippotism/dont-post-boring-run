@@ -49,7 +49,7 @@ interface DrawPolylineOptions {
 function drawPolyline(
   ctx: CanvasRenderingContext2D,
   points: [number, number][],
-  canvas: HTMLCanvasElement,
+  _canvas: HTMLCanvasElement,
   { x, y, w, h, color, lineWidth = 3, style = "normal" }: DrawPolylineOptions
 ) {
   if (!points.length) return;
@@ -93,7 +93,7 @@ function drawPolyline(
     // Force hard 90°-like turns
     ctx.moveTo(scaledPoints[0][0], scaledPoints[0][1]);
     for (let i = 1; i < scaledPoints.length; i++) {
-      const [prevX, prevY] = scaledPoints[i - 1];
+      const [, prevY] = scaledPoints[i - 1];
       const [currX, currY] = scaledPoints[i];
       ctx.lineTo(currX, prevY);
       ctx.lineTo(currX, currY);
