@@ -43,4 +43,6 @@ export const TemplateName = [
   "Elegant",
   "Elegant2"
 ] as const;
+
+
 export type templateType = (typeof TemplateName)[number];

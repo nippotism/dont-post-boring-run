@@ -34,7 +34,6 @@ function decodePolyline(str: string): [number, number][] {
 
 // Draw polyline scaled into a box
 // types for options
-// types for options
 interface DrawPolylineOptions {
   x: number;
   y: number;
@@ -43,7 +42,7 @@ interface DrawPolylineOptions {
   color: string;
   lineWidth?: number;
   style?: "normal" | "smooth" | "maze";
-  dash?: number[]; // e.g. [5, 5] → dash 5px, gap 5px
+  dash?: number[];
 }
 
 // Draw polyline scaled into a box
@@ -51,16 +50,7 @@ function drawPolyline(
   ctx: CanvasRenderingContext2D,
   points: [number, number][],
   canvas: HTMLCanvasElement,
-  {
-    x,
-    y,
-    w,
-    h,
-    color,
-    lineWidth = 3,
-    style = "normal",
-    dash,
-  }: DrawPolylineOptions
+  { x, y, w, h, color, lineWidth = 3, style = "normal" }: DrawPolylineOptions
 ) {
   if (!points.length) return;
 
@@ -74,14 +64,6 @@ function drawPolyline(
 
   ctx.strokeStyle = color;
   ctx.lineWidth = lineWidth;
-
-  // Apply dashes if provided
-  if (dash && dash.length) {
-    ctx.setLineDash(dash);
-  } else {
-    ctx.setLineDash([]); // reset to solid
-  }
-
   ctx.beginPath();
 
   const scaledPoints: [number, number][] = points.map(([lat, lng]) => {
@@ -91,6 +73,7 @@ function drawPolyline(
   });
 
   if (style === "smooth") {
+    // Smooth with quadratic curves
     ctx.moveTo(scaledPoints[0][0], scaledPoints[0][1]);
     for (let i = 1; i < scaledPoints.length - 1; i++) {
       const [xMid, yMid] = [
@@ -107,6 +90,7 @@ function drawPolyline(
     const last = scaledPoints[scaledPoints.length - 1];
     ctx.lineTo(last[0], last[1]);
   } else if (style === "maze") {
+    // Force hard 90°-like turns
     ctx.moveTo(scaledPoints[0][0], scaledPoints[0][1]);
     for (let i = 1; i < scaledPoints.length; i++) {
       const [prevX, prevY] = scaledPoints[i - 1];
@@ -115,6 +99,7 @@ function drawPolyline(
       ctx.lineTo(currX, currY);
     }
   } else {
+    // Normal straight lines
     ctx.moveTo(scaledPoints[0][0], scaledPoints[0][1]);
     for (let i = 1; i < scaledPoints.length; i++) {
       ctx.lineTo(scaledPoints[i][0], scaledPoints[i][1]);
@@ -123,7 +108,6 @@ function drawPolyline(
 
   ctx.stroke();
 }
-
 
 
 function timeConverter(seconds: number): string {

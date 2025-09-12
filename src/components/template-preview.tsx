@@ -2,8 +2,15 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ImageCanvas } from "./image-canvas";
 
-export function TemplatePreview({ activity, template }) {
-  const [imageData, setImageData] = useState(null);
+import type { ActivityData, templateType } from "@/types/strava";
+
+interface TemplatePreviewProps {
+  activity: ActivityData;
+  template: templateType;
+}
+
+export function TemplatePreview({ activity, template }: TemplatePreviewProps) {
+  const [imageData, setImageData] = useState<string | null>(null);
 
   return (
     <div className="relative group w-full max-w-sm mx-auto">

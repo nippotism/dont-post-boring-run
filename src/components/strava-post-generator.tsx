@@ -1,24 +1,26 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { TemplateName } from "@/types/strava";
-import { PaceCounter, timeConverter } from "@/hooks/logic";
 import { TemplatePreview } from "./template-preview";
 
-export function StravaPostGenerator({ activities }) {
-  const [selectedActivity, setSelectedActivity] = useState(null);
+import { TemplateName, type ActivityData } from "@/types/strava";
 
-  const templates = TemplateName; // Array of template names
+interface StravaPostGeneratorProps {
+  activities: ActivityData[];
+}
 
-  // Pagination
+export function StravaPostGenerator({ activities }: StravaPostGeneratorProps) {
+
+  const templates = TemplateName;
+
+  const [selectedActivity, setSelectedActivity] = useState<ActivityData | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(activities.length / itemsPerPage);

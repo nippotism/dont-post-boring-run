@@ -15,14 +15,9 @@ const Index = () => {
     }
   }, []);
 
-  const { activities, selectedActivity, setSelectedActivity } = useStravaData(accessToken);
+  const { activities } = useStravaData(accessToken);
 
-  const handleImageGenerated = (imageData: string) => {
-    const link = document.createElement("a");
-    link.href = imageData;
-    link.download = `strava-post-${selectedActivity?.name || "activity"}.png`;
-    link.click();
-  };
+  // Removed unused handleImageGenerated function
 
   const handleDeauth = () => {
     setAccessToken(null);
@@ -41,9 +36,6 @@ const Index = () => {
 
             <StravaPostGenerator
               activities={activities}
-              selectedActivity={selectedActivity}
-              onActivitySelect={setSelectedActivity}
-              onImageGenerate={handleImageGenerated}
             />
             <StravaDeauth accessToken={accessToken} onDeauth={handleDeauth} />
           </>
