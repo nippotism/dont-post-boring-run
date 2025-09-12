@@ -17,7 +17,7 @@ export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) 
 
   const STRAVA_CLIENT_ID = "171891";
   const STRAVA_CLIENT_SECRET = "e22ab6a6718c8f356f2ca45b6c6f83936e488371"; // ⚠️ aman kalau di backend, jangan hardcode production
-  const REDIRECT_URI = "http://localhost:5173"; // atau halaman callback kamu
+  const REDIRECT_URI = "https://dont-post-boring-run.vercel.app/"; // atau halaman callback kamu
   const SCOPE = "activity:read_all";
 
     useEffect(() => {
