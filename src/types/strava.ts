@@ -35,12 +35,6 @@ export interface StravaAuthTokens {
   expires_at: number;
 }
 
-export interface TemplateProps {
-  activity: ActivityData;
-  width: number;   // container width
-  height: number;  // container height
-}
-
 //create for storing template name
 export const TemplateName = [
   "Classic",

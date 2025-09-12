@@ -14,7 +14,7 @@ const TEMPLATE_SIZES = {
   Minimal: [800, 800],
   Modern: [800, 800],
   Elegant: [800, 800],
-  Story: [1080, 1920], // IG story ratio
+  Elegant2: [800, 800],
 };
 
 const PREVIEW_SIZE = 360; // CSS preview size
