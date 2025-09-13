@@ -14,67 +14,35 @@ export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) 
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
-  const STRAVA_CLIENT_ID = "171891";
-  const STRAVA_CLIENT_SECRET = "e22ab6a6718c8f356f2ca45b6c6f83936e488371"; // ⚠️ aman kalau di backend, jangan hardcode production
-  const REDIRECT_URI = "https://dont-post-boring-run.vercel.app/"; // atau halaman callback kamu
-  const SCOPE = "activity:read_all";
+  const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app";
 
     useEffect(() => {
-    const savedToken = localStorage.getItem("strava_token");
-    if (savedToken) {
-      onAuthSuccess(savedToken);
-    } else {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
-      if (code) {
-        exchangeToken(code);
-      }
+    const storedAthleteId = localStorage.getItem("strava_athlete_id");
+    if (storedAthleteId) {
+      onAuthSuccess(storedAthleteId);
+      return; // no need to parse URL
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const athleteId = params.get("athlete");
+    if (athleteId) {
+      onAuthSuccess(athleteId);
+      localStorage.setItem("strava_athlete_id", athleteId);
+
+      // Clean URL to remove query param
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
 
 
   // Step 2: tukar code dengan access_token
-  const exchangeToken = async (code: string) => {
-    setIsConnecting(true);
-    setError(null);
-    try {
-      const response = await fetch("https://www.strava.com/oauth/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          client_id: STRAVA_CLIENT_ID,
-          client_secret: STRAVA_CLIENT_SECRET,
-          code,
-          grant_type: "authorization_code",
-        }),
-      });
-
-      if (!response.ok) throw new Error(`Strava OAuth failed: ${response.status}`);
-
-      const data = await response.json();
-      const token = data.access_token;
-      onAuthSuccess(token);
-
-      // opsional: simpan token agar tidak hilang saat reload
-      localStorage.setItem("strava_token", token);
-
-      // bersihkan query param dari URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to connect to Strava. Please try again.");
-    } finally {
-      setIsConnecting(false);
-    }
-  };
 
   // Step 3: tombol redirect ke Strava
   const handleConnect = () => {
-    const authUrl = `https://www.strava.com/oauth/authorize?client_id=${STRAVA_CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(
-      REDIRECT_URI
-    )}&scope=${SCOPE}&approval_prompt=force`;
-    window.location.href = authUrl;
+    setIsConnecting(true);
+    setError(null);
+    // Redirect to backend OAuth route
+    window.location.href = `${BACKEND_URL}/auth/strava`;
   };
 
   if (isAuthenticated) {
