@@ -1,4 +1,4 @@
-import {use, useEffect, useState} from "react";
+import {useState} from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Pagination,
@@ -8,68 +8,15 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { ActivityData } from "@/types/strava"; // adjust import path
 import ThemeToggle from "./ui/dark-mode";
 import { StravaDeauth } from "./strava_deauth";
 import { PaceCounter, timeConverter } from "@/hooks/logic";
 import { useStravaData } from "@/hooks/useStravaData";
 
-interface StravaPostGeneratorProps {
-  activities: ActivityData[];
-}
 
 
-// Mock activities with your ActivityData interface
-const mockActivities: ActivityData[] = [
-  {
-    id: 1,
-    name: "Morning Run",
-    type: "Run",
-    distance: 5200,
-    moving_time: 1715,
-    elapsed_time: 1800,
-    total_elevation_gain: 50,
-    start_date: "2025-09-10T06:30:00Z",
-    average_speed: 3.1,
-    pace: "5:30",
-    map: { summary_polyline: "" },
-  },
-  {
-    id: 2,
-    name: "Evening Ride",
-    type: "Ride",
-    distance: 22000,
-    moving_time: 3912,
-    elapsed_time: 4000,
-    total_elevation_gain: 120,
-    start_date: "2025-09-09T16:45:00Z",
-    average_speed: 5.6,
-    map: { summary_polyline: "" },
-  },
-  {
-    id: 3,
-    name: "Trail Hike",
-    type: "Hike",
-    distance: 7800,
-    moving_time: 8049,
-    elapsed_time: 8300,
-    total_elevation_gain: 400,
-    start_date: "2025-09-08T09:10:00Z",
-    pace: "17:10",
-    map: { summary_polyline: "" },
-  },
-  {
-    id: 4,
-    name: "Swim Training",
-    type: "Swim",
-    distance: 1500,
-    moving_time: 2538,
-    elapsed_time: 2600,
-    total_elevation_gain: 0,
-    start_date: "2025-09-07T14:00:00Z",
-    map: { summary_polyline: "" },
-  },
-];
+
+
 
 export function ActivityPage() {
 
@@ -80,7 +27,7 @@ export function ActivityPage() {
     window.location.href = "/";
   }
 
-    const { activities, loading, error } = useStravaData(AthleteId!);
+    const { activities, loading} = useStravaData(AthleteId!);
 
 
 

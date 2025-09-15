@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { StravaAuth } from "@/components/strava-auth";
-import { StravaDeauth } from "@/components/strava_deauth";
-import { StravaPostGenerator } from "@/components/strava-post-generator";
-import { useStravaData } from "@/hooks/useStravaData";
-import { Activity } from "lucide-react";
-import { ActivityPage } from "@/components/select-activites";
+// import { StravaDeauth } from "@/components/strava_deauth";
+// import { StravaPostGenerator } from "@/components/strava-post-generator";
+// import { useStravaData } from "@/hooks/useStravaData";
+// import { Activity } from "lucide-react";
+// import { ActivityPage } from "@/components/select-activites";
 
 const Index = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   // Removed unused handleImageGenerated function
 
-  const handleDeauth = () => {
-    setAccessToken(null);
-    localStorage.removeItem("strava_athlete_id");
-  };
+  // const handleDeauth = () => {
+  //   setAccessToken(null);
+  //   localStorage.removeItem("strava_athlete_id");
+  // };
 
   return (
     <div className="min-h-screen">

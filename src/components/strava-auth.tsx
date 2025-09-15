@@ -3,8 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { FlipWords } from "./ui/flip-words";
 import { Badge } from "@/components/ui/badge";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ExternalLink, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { CheckCircle, Loader2 } from "lucide-react";
 
 
 
@@ -15,7 +14,7 @@ interface StravaAuthProps {
 
 export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) {
   const [isConnecting, setIsConnecting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
   const words = ["run","cycle","ride","hike","walk","swim","trail"];
 
   // const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app";
@@ -45,7 +44,7 @@ export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) 
   // Step 3: tombol redirect ke Strava
   const handleConnect = () => {
     setIsConnecting(true);
-    setError(null);
+    // setError(null);
     // Redirect to backend OAuth route
     window.location.href = `${BACKEND_URL}/auth/strava`;
   };
