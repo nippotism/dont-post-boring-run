@@ -8,8 +8,8 @@ export const useStravaData = (athleteId: string | null) => {
   const [error, setError] = useState<string | null>(null);
 
 
-  // const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app"; // 
-  const BACKEND_URL = "http://localhost:4000"; // 
+  const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app"; // 
+  // const BACKEND_URL = "http://localhost:4000"; // 
   
   useEffect(() => {
     if (!athleteId) return;

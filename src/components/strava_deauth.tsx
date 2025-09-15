@@ -6,8 +6,8 @@ interface StravaDeauthProps {
   accessToken: string;
   onDeauth: () => void;
 }
-
-const BACKEND_URL = "http://localhost:4000"; 
+const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app";
+// const BACKEND_URL = "http://localhost:4000";
 
 export function StravaDeauth({ accessToken, onDeauth }: StravaDeauthProps) {
   const [loading, setLoading] = useState(false);

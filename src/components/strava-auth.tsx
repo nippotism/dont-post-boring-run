@@ -17,8 +17,8 @@ export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) 
   // const [error, setError] = useState<string | null>(null);
   const words = ["run","cycle","ride","hike","walk","swim","trail"];
 
-  // const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app";
-  const BACKEND_URL = "http://localhost:4000"; // for local dev
+  const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app";
+  // const BACKEND_URL = "http://localhost:4000"; // for local dev
 
     useEffect(() => {
     const storedAthleteId = localStorage.getItem("strava_athlete_id");
