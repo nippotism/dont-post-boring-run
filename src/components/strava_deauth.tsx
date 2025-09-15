@@ -8,21 +8,25 @@ interface StravaDeauthProps {
   onDeauth: () => void;
 }
 
+const BACKEND_URL = "http://localhost:4000"; 
+
 export function StravaDeauth({ accessToken, onDeauth }: StravaDeauthProps) {
   const [loading, setLoading] = useState(false);
+  const athleteId = accessToken;
 
   const handleDeauth = async () => {
-    if (!accessToken) return;
+    console.log("Deauthorizing Strava for athlete ID:", athleteId);
+    if (!athleteId) return;
     setLoading(true);
     try {
-      await fetch("https://www.strava.com/oauth/deauthorize", {
+      await fetch(`${BACKEND_URL}/auth/deauthorize/${encodeURIComponent(athleteId)}`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({ access_token: accessToken }),
       });
 
-      localStorage.removeItem("strava_token");
+      localStorage.removeItem("strava_athlete_id");
       onDeauth(); // reset state in parent
+      window.location.href = "/"; // redirect to home page
     } catch (err) {
       console.error("Failed to deauthorize:", err);
     } finally {
@@ -31,35 +35,21 @@ export function StravaDeauth({ accessToken, onDeauth }: StravaDeauthProps) {
   };
 
   return (
-    <Card className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-red-700 dark:text-red-300">
-          Disconnect Strava
-        </CardTitle>
-        <CardDescription className="text-red-600 dark:text-red-400">
-          Revoke access to your Strava account.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
         <Button
           onClick={handleDeauth}
           disabled={loading}
-          variant="destructive"
-          className="w-full bg-red-600 hover:bg-red-700 text-white"
+          variant="ghost"
+          className=" dark:text-red-500 text-red-600 hover:text-red-700 rounded-none"
         >
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Disconnecting...
             </>
           ) : (
             <>
-              <LogOut className="w-4 h-4 mr-2" />
-              Disconnect Strava
+              <LogOut className="w-6 h-6" />
             </>
           )}
         </Button>
-      </CardContent>
-    </Card>
   );
 }

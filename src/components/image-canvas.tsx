@@ -204,8 +204,7 @@ function drawElegant(ctx: CanvasRenderingContext2D, activity: ActivityData, widt
     h: 150,
     color: "#ffffff",
     lineWidth: 3,
-    style: "smooth",
-    dash: [8, 5],
+    style: "smooth"
   });
 
   ctx.font = "bold 18px Arial";

@@ -7,7 +7,9 @@ export const useStravaData = (athleteId: string | null) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app"; // 
+
+  // const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app"; // 
+  const BACKEND_URL = "http://localhost:4000"; // 
   
   useEffect(() => {
     if (!athleteId) return;
@@ -28,7 +30,6 @@ export const useStravaData = (athleteId: string | null) => {
         console.error("Error fetching activities:", err);
         localStorage.removeItem("strava_athlete_id");
         // refresh the page to reset state
-        window.location.reload();
       } finally {
         setLoading(false);
       }
