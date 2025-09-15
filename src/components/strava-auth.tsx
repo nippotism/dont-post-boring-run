@@ -113,6 +113,8 @@ export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) 
       <>CONNECT YOUR STRAVA</>
     )}
   </Button>
+
+  <img src="/images/strava.png" alt="Strava Logo" className="h-2.5 w-auto mt-3" />
 </div>
 
 
