@@ -89,8 +89,9 @@ export function ActivityTemplatePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-calsans">
         {tplLoading
             ? // 🔹 Show skeleton cards while fetching
-            Array.from({ length: 8 }).map((_, i) => (
+            Array.from({ length: 8 }).map((_, idx) => (
                 <Card
+                        key={idx}
                         className="p-4 rounded-none 
                                     bg-white/20 dark:bg-black/20 
                                     backdrop-blur-md 
