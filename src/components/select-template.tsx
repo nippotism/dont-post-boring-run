@@ -32,7 +32,7 @@ export function ActivityTemplatePage() {
     const fetchTemplates = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/activities/${id}/templates?page=1&limit=5&athlete=${AthleteId}`
+          `${import.meta.env.VITE_API_URL}/api/activities/${id}/templates?page=1&limit=8&athlete=${AthleteId}`
         );
         const data = await res.json();
         setTplLoading(false);
@@ -111,31 +111,29 @@ export function ActivityTemplatePage() {
                                     hover:text-white 
                                     transition-colors duration-300 
                                     border border-transparent hover:border-white
-                                    relative group"
+                                    relative"
                         >
-                        <div className="relative">
+                          <div className="relative">
                             {/* Image */}
                             <img
-                            src={tpl.image}
-                            alt={tpl.name}
-                            className="w-auto h-auto max-h-96 mx-auto group-hover:blur-xs transition-all duration-300"
+                              src={tpl.image}
+                              alt={tpl.name}
+                              className="w-auto h-auto max-h-96 mx-auto"
                             />
 
-                            {/* Overlay with download button */}
-                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            {/* Download button fixed at bottom-left */}
                             <button
-                                onClick={() => {
+                              onClick={() => {
                                 const link = document.createElement("a");
                                 link.href = tpl.image; // base64 image
                                 link.download = `${tpl.name}.png`;
                                 link.click();
-                                }}
-                                className=" text-white hover:text-gray-300 transition-colors"
+                              }}
+                              className="absolute bottom-0 left-0 bg-black dark:bg-white text-white dark:text-black p-2 hover:bg-black/70 dark:hover:bg-white/80 border-black dark:border-white transition-colors"
                             >
-                                <ArrowDownToLine size={48} />
+                              <ArrowDownToLine size={24} />
                             </button>
-                            </div>
-                        </div>
+                          </div>
                     </Card>
 
             ))}
