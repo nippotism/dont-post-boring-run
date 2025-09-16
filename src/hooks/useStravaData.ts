@@ -7,9 +7,6 @@ export const useStravaData = (athleteId: string | null) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
-  const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app"; // 
-  // const BACKEND_URL = "http://localhost:4000"; // 
   
   useEffect(() => {
     if (!athleteId) return;
@@ -19,7 +16,7 @@ export const useStravaData = (athleteId: string | null) => {
       setError(null);
 
       try {
-        const response = await fetch(`${BACKEND_URL}/api/activities?athlete=${encodeURIComponent(athleteId)}`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/activities?athlete=${encodeURIComponent(athleteId)}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

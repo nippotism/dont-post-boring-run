@@ -1,4 +1,5 @@
 import {useState} from "react";
+import { Link } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Pagination,
@@ -8,10 +9,9 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
-import ThemeToggle from "./ui/dark-mode";
-import { StravaDeauth } from "./strava_deauth";
 import { PaceCounter, timeConverter } from "@/hooks/logic";
 import { useStravaData } from "@/hooks/useStravaData";
+import { Navbar } from "./ui/navbar";
 
 
 
@@ -52,15 +52,7 @@ export function ActivityPage() {
       {/* Optional overlay to darken the background */}
       <div/>
       {/* Navbar */}
-      <nav className="bg-white shadow-md px-6 py-4 flex items-center dark:bg-gray-950 bg-opacity-90 dark:bg-opacity-90 backdrop-blur-sm justify-between">
-        <ThemeToggle />
-        <a 
-        className="text-xl sm:text-4xl font-bold tracking-wider text-black font-calsans dark:text-white hover:underline hover:text-gray-800"
-        href="http://localhost:5173"
-        >dontpostboringrun.com</a>
-        <StravaDeauth accessToken={String(AthleteId)} onDeauth={() => {}} />
-      </nav>
-
+      <Navbar />
       {/* Activities */}
       <div className="container mx-auto px-6 py-8">
         <h2 className="text-2xl mb-6 font-crimson">CHOOSE YOUR ACTIVITY</h2>
@@ -96,6 +88,7 @@ export function ActivityPage() {
             ))
             : // 🔹 Show real activities when loaded
             activityShow.map((activity) => (
+              <Link key={activity.id} to={`/activities/${activity.id}`}>
                 <Card
                 key={activity.id}
                 className="flex flex-col rounded-none hover:bg-black/70 hover:text-white transition-colors duration-300 hover:border-white border border-transparent"
@@ -140,6 +133,7 @@ export function ActivityPage() {
                     </div>
                 </CardContent>
                 </Card>
+              </Link>
             ))}
         </div>
                <Pagination className="mt-4 -mb-6">

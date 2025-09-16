@@ -19,6 +19,12 @@ export interface ActivityData {
   };
 }
 
+export interface ActivityTemplate {
+  id: string;
+  name: string;
+  image: string; // already a full data URL from backend
+}
+
 export interface StravaAthlete {
   id: number;
   firstname: string;

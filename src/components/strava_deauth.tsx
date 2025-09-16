@@ -6,8 +6,6 @@ interface StravaDeauthProps {
   accessToken: string;
   onDeauth: () => void;
 }
-const BACKEND_URL = "https://dont-post-boring-run-backend.vercel.app";
-// const BACKEND_URL = "http://localhost:4000";
 
 export function StravaDeauth({ accessToken, onDeauth }: StravaDeauthProps) {
   const [loading, setLoading] = useState(false);
@@ -18,7 +16,7 @@ export function StravaDeauth({ accessToken, onDeauth }: StravaDeauthProps) {
     if (!athleteId) return;
     setLoading(true);
     try {
-      await fetch(`${BACKEND_URL}/auth/deauthorize/${encodeURIComponent(athleteId)}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/auth/deauthorize/${encodeURIComponent(athleteId)}`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
