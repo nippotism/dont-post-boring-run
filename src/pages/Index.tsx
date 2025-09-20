@@ -25,7 +25,6 @@ const Index = () => {
           </div>
         ) : (
           <>
-            // If authenticated, go to /activities
             {window.location.href = "/activities"}
           </>
         )}

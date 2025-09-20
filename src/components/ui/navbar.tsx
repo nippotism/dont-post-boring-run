@@ -11,7 +11,7 @@ export function Navbar() {
                 <ThemeToggle />
                 <a 
                 className="text-xl sm:text-4xl font-bold tracking-wider text-black font-calsans dark:text-white hover:underline hover:text-gray-800"
-                href="http://localhost:5173"
+                href="/"
                 >dontpostboringrun.com</a>
                 <StravaDeauth accessToken={String(AthleteId)} onDeauth={() => {}} />
               </nav>
