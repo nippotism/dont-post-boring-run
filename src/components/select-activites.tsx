@@ -98,7 +98,7 @@ export function ActivityPage() {
                     {activity.name}
                     </CardTitle>
                     <p className="text-sm text-muted-foreground">
-                    {new Date(activity.start_date_local).toLocaleString("en-US", {
+                    {new Date(activity.start_date).toLocaleString("en-US", {
       month: "short",
       day: "numeric",
       hour: "numeric",
