@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import {
   Pagination,
@@ -13,158 +13,179 @@ import { Link, useParams } from "react-router-dom";
 import { Navbar } from "./ui/navbar";
 import { ArrowDownToLine } from "lucide-react";
 
-
-
-
-
-
 export function ActivityTemplatePage() {
-    const { id } = useParams();
-    const [templates, setTemplates] = useState<ActivityTemplate[]>([]);
-    const [tplLoading, setTplLoading] = useState(true);
-    const AthleteId = localStorage.getItem("strava_athlete_id");
+  const { id } = useParams();
+  const [templates, setTemplates] = useState<Record<number, ActivityTemplate[]>>({});
+  const [tplLoading, setTplLoading] = useState(true);
+  const AthleteId = localStorage.getItem("strava_athlete_id");
 
-    if (!AthleteId) {
-      window.location.href = "/";
-    }
-
-    useEffect(() => {
-    const fetchTemplates = async () => {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/activities/${id}/templates?page=1&limit=8&athlete=${AthleteId}`
-        );
-        const data = await res.json();
-        setTplLoading(false);
-        setTemplates(data.templates || []);
-      } catch (err) {
-        console.error("Error fetching templates:", err);
-      } finally {
-        setTplLoading(false);
-      }
-    };
-
-    fetchTemplates();
-  }, [id]);
-
-
-
+  if (!AthleteId) {
+    window.location.href = "/";
+  }
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
-  const totalPages = Math.ceil(templates.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const templateShow = templates.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  const limit = 8;
 
+  const fetchPage = async (p: number): Promise<ActivityTemplate[]> => {
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/activities/${id}/templates?page=${p}&limit=${limit}&athlete=${AthleteId}`
+    );
+    const data = await res.json();
+    return data.templates || [];
+  };
 
+  useEffect(() => {
+    const load = async () => {
+      setTplLoading(true);
+
+      // fetch current page kalau belum ada
+      if (!templates[currentPage]) {
+        const current = await fetchPage(currentPage);
+        setTemplates((prev) => ({ ...prev, [currentPage]: current }));
+      }
+
+      // prefetch next page
+      if (!templates[currentPage + 1]) {
+        const next = await fetchPage(currentPage + 1);
+        if (next.length > 0) {
+          setTemplates((prev) => ({ ...prev, [currentPage + 1]: next }));
+        }
+      }
+
+      setTplLoading(false);
+    };
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, id]);
+
+  const templateShow = templates[currentPage] || [];
 
   return (
     <div
       className="min-h-screen bg-cover bg-center relative"
-      style={{ backgroundImage: "url('/images/bg5.jpg')",
-       backgroundPosition: "center 65%"
-       }}
+      style={{
+        backgroundImage: "url('/images/bg5.jpg')",
+        backgroundPosition: "center 65%",
+      }}
     >
-      {/* Optional overlay to darken the background */}
-      <div/>
-      {/* Navbar */}
+      <div />
       <Navbar />
 
-      {/* Activities */}
       <div className="container mx-auto px-6 py-8">
         <div className="flex flex-row justify-between items-center font-crimson mb-3 text-2xl">
-            <Link to="/activities" className="hover:underline hover:text-gray-800">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-        </Link>
-            <h2 className="
-        ml-auto text-right 
-        sm:mx-auto sm:text-center
-      ">CHOOSE YOUR TEMPLATE</h2>
-            <div></div>
+          <Link
+            to="/activities"
+            className="hover:underline hover:text-gray-800"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-arrow-left-icon lucide-arrow-left"
+            >
+              <path d="m12 19-7-7 7-7" />
+              <path d="M19 12H5" />
+            </svg>
+          </Link>
+          <h2
+            className="
+              ml-auto text-right 
+              sm:mx-auto sm:text-center
+            "
+          >
+            CHOOSE YOUR TEMPLATE
+          </h2>
+          <div></div>
         </div>
 
+        {/* Template Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-calsans">
-        {tplLoading
-            ? // 🔹 Show skeleton cards while fetching
-            Array.from({ length: 8 }).map((_, idx) => (
+          {tplLoading && !templates[currentPage]
+            ? // Skeleton ketika pertama kali load page
+              Array.from({ length: 8 }).map((_, idx) => (
                 <Card
-                        key={idx}
-                        className="p-4 rounded-none 
-                                    bg-white/20 dark:bg-black/20 
-                                    backdrop-blur-md 
-                                    border border-transparent"
-                        >
-                        <Skeleton className="w-auto h-80 opacity-20 rounded-none" /> 
-                        </Card>
-                    ))
-                    : // 🔹 Show real activities when loaded
-                    templateShow.map((tpl) => (
-                    <Card
-                        key={tpl.id}
-                        className="p-4 rounded-none 
-                                    bg-black/20 dark:bg-black/40 
-                                    backdrop-blur-md 
-                                    hover:bg-white/30 dark:hover:bg-black/30
-                                    hover:text-white 
-                                    transition-colors duration-300 
-                                    border border-transparent hover:border-white
-                                    relative"
-                        >
-                          <div className="relative">
-                            {/* Image */}
-                            <img
-                              src={tpl.image}
-                              alt={tpl.name}
-                              className="w-auto h-auto max-h-96 mx-auto"
-                            />
+                  key={idx}
+                  className="p-4 rounded-none 
+                            bg-white/20 dark:bg-black/20 
+                            backdrop-blur-md 
+                            border border-transparent"
+                >
+                  <Skeleton className="w-auto h-80 opacity-20 rounded-none" />
+                </Card>
+              ))
+            : templateShow.map((tpl) => (
+                <Card
+                  key={tpl.id}
+                  className="p-4 rounded-none 
+                              bg-black/20 dark:bg-black/40 
+                              backdrop-blur-md 
+                              hover:bg-white/30 dark:hover:bg-black/30
+                              hover:text-white 
+                              transition-colors duration-300 
+                              border border-transparent hover:border-white
+                              relative"
+                >
+                  <div className="relative">
+                    <img
+                      src={tpl.image}
+                      alt={tpl.name}
+                      className="w-auto h-auto max-h-96 mx-auto"
+                    />
 
-                            {/* Download button fixed at bottom-left */}
-                            <button
-                              onClick={() => {
-                                const link = document.createElement("a");
-                                link.href = tpl.image; // base64 image
-                                link.download = `${tpl.name}.png`;
-                                link.click();
-                              }}
-                              className="absolute bottom-0 left-0 bg-black dark:bg-white text-white dark:text-black p-2 hover:bg-black/70 dark:hover:bg-white/80 border-black dark:border-white transition-colors"
-                            >
-                              <ArrowDownToLine size={24} />
-                            </button>
-                          </div>
-                    </Card>
-
-            ))}
+                    {/* Download button */}
+                    <button
+                      onClick={() => {
+                        const link = document.createElement("a");
+                        link.href = tpl.image;
+                        link.download = `${tpl.name}.png`;
+                        link.click();
+                      }}
+                      className="absolute bottom-0 left-0 bg-black dark:bg-white text-white dark:text-black p-2 hover:bg-black/70 dark:hover:bg-white/80 border-black dark:border-white transition-colors"
+                    >
+                      <ArrowDownToLine size={24} />
+                    </button>
+                  </div>
+                </Card>
+              ))}
         </div>
-               <Pagination className="mt-4 -mb-6">
-                    <PaginationContent>
-                    <PaginationItem>
-                        <PaginationPrevious
-                        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                        className={
-                            currentPage === 1 ? "pointer-events-none opacity-50" : "font-crimson text-lg"
-                        }
-                        />
-                    </PaginationItem>
-                    <PaginationItem>
-                        <PaginationNext
-                        onClick={() =>
-                            setCurrentPage((p) => Math.min(totalPages, p + 1))
-                        }
-                        className={
-                            currentPage === totalPages
-                            ? "pointer-events-none opacity-50"
-                            : "font-crimson text-lg"
-                        }
-                        />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+
+        {/* Pagination */}
+        <Pagination className="mt-4 -mb-6">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                className={
+                  currentPage === 1
+                    ? "pointer-events-none opacity-50"
+                    : "font-crimson text-lg"
+                }
+              />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => {
+                  if (templates[currentPage + 1]?.length > 0) {
+                    setCurrentPage((p) => p + 1);
+                  }
+                }}
+                className={
+                  !templates[currentPage + 1] ||
+                  templates[currentPage + 1]?.length === 0
+                    ? "pointer-events-none opacity-50"
+                    : "font-crimson text-lg"
+                }
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );
-};
-
-
+}
