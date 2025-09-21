@@ -75,7 +75,7 @@ export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) 
     <img
       src="/images/bg1.jpg"
       alt="Background"
-      className="w-full h-full object-cover"
+      className="w-full h-full object-cover object-[63%]"
     />
   </div>
 
