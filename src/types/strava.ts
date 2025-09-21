@@ -7,6 +7,7 @@ export interface ActivityData {
   elapsed_time: number;
   total_elevation_gain: number;
   start_date: string;
+  start_date_local: string;
   average_speed?: number;
   max_speed?: number;
   average_heartrate?: number;

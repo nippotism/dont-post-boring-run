@@ -98,7 +98,12 @@ export function ActivityPage() {
                     {activity.name}
                     </CardTitle>
                     <p className="text-sm text-muted-foreground">
-                    {new Date(activity.start_date).toLocaleDateString()}
+                    {new Date(activity.start_date_local).toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    })}
                     </p>
                 </CardHeader>
                 <CardContent className="space-y-2 font-crimson font-medium">
@@ -122,12 +127,12 @@ export function ActivityPage() {
                         </span>
                     </div>
                     <div className="flex items-center flex-col mb-1">
-                        <span>AVG SPEED</span>
+                        <span>ELEVATION</span>
                         <span className="font-calsans text-sm">
-                        {activity.average_speed
-                            ? (activity.average_speed * 3.6).toFixed(1)
+                        {activity.total_elevation_gain
+                            ? activity.total_elevation_gain.toFixed(1)
                             : "N/A"}{" "}
-                        km/h
+                        m
                         </span>
                     </div>
                     </div>
