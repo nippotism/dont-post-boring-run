@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { FlipWords } from "./ui/flip-words";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Loader2 } from "lucide-react";
+import InstallPWA from "@/components/ui/pwa";
 
 
 
@@ -72,13 +73,13 @@ export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) 
     <div className="relative flex flex-col items-center justify-center min-h-screen px-4 text-center">
   {/* Background */}
   <div className="fixed inset-0 -z-10">
+    <InstallPWA />
     <img
       src="/images/bg1.jpg"
       alt="Background"
       className="w-full h-full object-cover object-[63%]"
     />
   </div>
-
   <h1 className="font-bold text-white font-calsans tracking-wider leading-tight">
     <div className="flex justify-center">
       <div className="text-left">
