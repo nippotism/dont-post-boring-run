@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { StravaAuth } from "@/components/strava-auth";
+import InstallPWA from "@/components/ui/pwa";
 // import { StravaDeauth } from "@/components/strava_deauth";
 // import { StravaPostGenerator } from "@/components/strava-post-generator";
 // import { useStravaData } from "@/hooks/useStravaData";
@@ -21,6 +22,7 @@ const Index = () => {
       <div className="container mx-auto space-y-8">
         {!accessToken ? (
           <div className="max-w-md mx-auto">
+            <InstallPWA />
             <StravaAuth onAuthSuccess={setAccessToken} isAuthenticated={false} />
           </div>
         ) : (
