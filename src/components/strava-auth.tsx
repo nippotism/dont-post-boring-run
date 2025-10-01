@@ -73,7 +73,6 @@ export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) 
     <div className="relative flex flex-col items-center justify-center min-h-screen px-4 text-center">
   {/* Background */}
   <div className="fixed inset-0 -z-10">
-    <InstallPWA />
     <img
       src="/images/bg1.jpg"
       alt="Background"

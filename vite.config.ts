@@ -43,12 +43,12 @@ export default defineConfig({
             "purpose": "maskable"
           }
         ],
-        "theme_color": "#ffffff",
+        "theme_color": "#000000",
         "background_color": "#ffffff",
         "display": "fullscreen",
         "scope": "/",
         "start_url": "/"
-            },
+      },
     }),
   ],
   resolve: {
