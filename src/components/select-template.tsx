@@ -145,6 +145,18 @@ export function ActivityTemplatePage() {
                         link.href = tpl.image;
                         link.download = `${tpl.name}.png`;
                         link.click();
+
+                        //post to record
+                        fetch(`${import.meta.env.VITE_API_URL}/api/records`, {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            name: tpl.id,
+                          }),
+                        });
+
                       }}
                       className="absolute bottom-0 left-0 bg-black dark:bg-white text-white dark:text-black p-2 hover:bg-black/70 dark:hover:bg-white/80 border-black dark:border-white transition-colors"
                     >
