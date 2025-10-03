@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import {
   Pagination,
@@ -11,13 +11,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { type ActivityTemplate } from "@/types/strava";
 import { Link, useParams } from "react-router-dom";
 import { Navbar } from "./ui/navbar";
-import { ArrowDownToLine } from "lucide-react";
+import { ArrowDownToLine, Paintbrush} from "lucide-react";
+import { ChromePicker} from "react-color";
 
 export function ActivityTemplatePage() {
   const { id } = useParams();
   const [templates, setTemplates] = useState<Record<number, ActivityTemplate[]>>({});
   const [tplLoading, setTplLoading] = useState(true);
   const AthleteId = localStorage.getItem("strava_athlete_id");
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [bgColor, setBgColor] = useState("#ffffff");
+  const [submitting, setSubmitting] = useState(false);
+
+
 
   if (!AthleteId) {
     window.location.href = "/";
@@ -26,12 +32,17 @@ export function ActivityTemplatePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 8;
 
-  const fetchPage = async (p: number): Promise<ActivityTemplate[]> => {
-    const res = await fetch(
-      `${import.meta.env.VITE_API_URL}/api/activities/${id}/templates?page=${p}&limit=${limit}&athlete=${AthleteId}`
-    );
-    const data = await res.json();
-    return data.templates || [];
+  const fetchPage = async (p: number, colorParam?: string): Promise<ActivityTemplate[]> => {
+  const url = new URL(`${import.meta.env.VITE_API_URL}/api/activities/${id}/templates`);
+  url.searchParams.set("page", p.toString());
+  url.searchParams.set("limit", limit.toString());
+  url.searchParams.set("athlete", AthleteId || "");
+  if (colorParam) url.searchParams.set("color", colorParam);
+
+
+  const res = await fetch(url.toString());
+  const data = await res.json();
+  return data.templates || [];
   };
 
   useEffect(() => {
@@ -59,6 +70,25 @@ export function ActivityTemplatePage() {
   }, [currentPage, id]);
 
   const templateShow = templates[currentPage] || [];
+
+  const handleSubmit = async () => {
+  
+    setShowColorPicker(false);
+
+    setSubmitting(true);
+
+    const current = await fetchPage(currentPage, bgColor.replace("#", ""));
+    setTemplates((prev) => ({ ...prev, [currentPage]: current }));
+
+    const next = await fetchPage(currentPage + 1, bgColor.replace("#", ""));
+    if (next.length > 0) {
+      setTemplates((prev) => ({ ...prev, [currentPage + 1]: next }));
+    }
+
+    setSubmitting(false);
+  };
+
+
 
   return (
     <div
@@ -94,19 +124,52 @@ export function ActivityTemplatePage() {
             </svg>
           </Link>
           <h2
-            className="
-              ml-auto text-right 
-              sm:mx-auto sm:text-center
-            "
           >
             CHOOSE YOUR TEMPLATE
           </h2>
-          <div></div>
+          <div className="relative inline-block">
+            <button
+              className="p-1.5"
+              // style={{ backgroundColor: bgColor + "4D" , borderRadius: "4px"}}
+              onClick={() => setShowColorPicker(!showColorPicker)}
+            >
+              <Paintbrush
+                size={24}
+                strokeWidth={1}
+                fill={bgColor == "#ffffff" ? "none" : bgColor}
+              />
+            </button>
+
+            {showColorPicker && (
+              <div className="absolute right-0 mt-2 z-10">
+                {/* Overlay */}
+                <div
+                  className="fixed inset-0"
+                  onClick={() => setShowColorPicker(false)}
+                />
+
+                {/* Color picker box (higher z-index) */}
+                <div className="relative z-20 bg-white shadow-lg rounded">
+                  <ChromePicker
+                    color={bgColor}
+                    onChangeComplete={(color) => setBgColor(color.hex)}
+                  />
+                  <button
+                    className="bg-black text-white w-full text-sm tracking-wide p-1.5"
+                    onClick={handleSubmit}
+                  >
+                    SUBMIT
+                  </button>
+                </div>
+              </div>
+            )}
+
+          </div>
         </div>
 
         {/* Template Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-calsans">
-          {tplLoading && !templates[currentPage]
+          {submitting || (tplLoading && !templates[currentPage])
             ? // Skeleton ketika pertama kali load page
               Array.from({ length: 8 }).map((_, idx) => (
                 <Card
