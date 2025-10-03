@@ -80,13 +80,15 @@ export function ActivityTemplatePage() {
 
   const current = await fetchPage(currentPage, chosenColor.replace("#", ""));
   setTemplates((prev) => ({ ...prev, [currentPage]: current }));
+  
+  setSubmitting(false);
 
+  
   const next = await fetchPage(currentPage + 1, chosenColor.replace("#", ""));
   if (next.length > 0) {
     setTemplates((prev) => ({ ...prev, [currentPage + 1]: next }));
   }
 
-  setSubmitting(false);
 };
 
 
