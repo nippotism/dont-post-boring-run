@@ -71,22 +71,24 @@ export function ActivityTemplatePage() {
 
   const templateShow = templates[currentPage] || [];
 
-  const handleSubmit = async () => {
-  
-    setShowColorPicker(false);
+  const handleSubmit = async (color?: string) => {
+  const chosenColor = color || bgColor;
+  console.log("Submitting color:", chosenColor);
 
-    setSubmitting(true);
+  setShowColorPicker(false);
+  setSubmitting(true);
 
-    const current = await fetchPage(currentPage, bgColor.replace("#", ""));
-    setTemplates((prev) => ({ ...prev, [currentPage]: current }));
+  const current = await fetchPage(currentPage, chosenColor.replace("#", ""));
+  setTemplates((prev) => ({ ...prev, [currentPage]: current }));
 
-    const next = await fetchPage(currentPage + 1, bgColor.replace("#", ""));
-    if (next.length > 0) {
-      setTemplates((prev) => ({ ...prev, [currentPage + 1]: next }));
-    }
+  const next = await fetchPage(currentPage + 1, chosenColor.replace("#", ""));
+  if (next.length > 0) {
+    setTemplates((prev) => ({ ...prev, [currentPage + 1]: next }));
+  }
 
-    setSubmitting(false);
-  };
+  setSubmitting(false);
+};
+
 
 
 
@@ -156,9 +158,15 @@ export function ActivityTemplatePage() {
                   />
                   <button
                     className="bg-black text-white w-full text-sm tracking-wide p-1.5"
-                    onClick={handleSubmit}
+                    onClick={() => handleSubmit()}
                   >
                     SUBMIT
+                  </button>
+                  <button
+                    className="bg-white text-black w-full text-sm tracking-wide p-1.5"
+                    onClick={() => { setBgColor("#ffffff"); handleSubmit("#ffffff"); }}
+                  >
+                    RESET
                   </button>
                 </div>
               </div>
