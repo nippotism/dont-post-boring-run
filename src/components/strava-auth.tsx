@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { FlipWords } from "./ui/flip-words";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Loader2 } from "lucide-react";
+import { Footer2 } from "./ui/footer";
 
 
 
@@ -47,27 +48,6 @@ export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) 
     window.location.href = `${import.meta.env.VITE_API_URL}/auth/strava`;
   };
 
-  if (isAuthenticated) {
-    return (
-      <Card className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-green-700 dark:text-green-300">
-            <CheckCircle className="w-5 h-5" />
-            Connected to Strava
-          </CardTitle>
-          <CardDescription className="text-green-600 dark:text-green-400">
-            Successfully connected! Your recent activities are now available.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-            ✓ Authenticated
-          </Badge>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen px-4 text-center">
   {/* Background */}
@@ -77,6 +57,7 @@ export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) 
       alt="Background"
       className="w-full h-full object-cover object-[63%]"
     />
+     <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black" />
   </div>
   <h1 className="font-bold text-white font-calsans tracking-wider leading-tight">
     <div className="flex justify-center">
