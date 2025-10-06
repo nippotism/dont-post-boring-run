@@ -7,10 +7,9 @@ import { Loader2 } from "lucide-react";
 
 interface StravaAuthProps {
   onAuthSuccess: (accessToken: string) => void;
-  isAuthenticated: boolean;
 }
 
-export function StravaAuth({ onAuthSuccess, isAuthenticated }: StravaAuthProps) {
+export function StravaAuth({ onAuthSuccess}: StravaAuthProps) {
   const [isConnecting, setIsConnecting] = useState(false);
   // const [error, setError] = useState<string | null>(null);
   const words = ["run","cycle","ride","hike","walk","swim","trail"];

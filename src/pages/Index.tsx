@@ -27,7 +27,7 @@ const Index = () => {
         {!accessToken && (
           <div className="max-w-md mx-auto">
             <InstallPWA />
-            <StravaAuth onAuthSuccess={setAccessToken} isAuthenticated={false} />
+            <StravaAuth onAuthSuccess={setAccessToken}/>
           </div>
         )}
       </div>
