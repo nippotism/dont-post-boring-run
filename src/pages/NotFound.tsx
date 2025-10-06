@@ -1,21 +1,52 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import { ArrowLeft } from "lucide-react";
+import FuzzyText from "@/components/ui/FuzzyText";
 
 const NotFound = () => {
   const location = useLocation();
+
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
   }, [location.pathname]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-gray-600">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 underline hover:text-blue-700">
-          Return to Home
-        </a>
+    <div
+      className="min-h-screen bg-cover bg-center relative"
+      style={{
+        backgroundImage: "url('/images/bg6.jpg')",
+      }}
+    >
+      <div />
+
+      <div className="container mx-auto flex flex-col items-center justify-center h-screen px-6 py-8">
+        <FuzzyText  
+          fontSize={120}
+          >
+          404
+        </FuzzyText> 
+        <FuzzyText  
+          fontSize={120}
+          >
+          404
+        </FuzzyText> 
+        <FuzzyText  
+          fontSize={120}
+          >
+          404
+        </FuzzyText> <FuzzyText  
+          fontSize={120}
+          >
+          404
+        </FuzzyText> 
+        <button
+          onClick={() => (window.location.href = "/")}
+          className="mt-10 py-1 px-3 font-crimson transition text-sm bg-white flex items-center gap-1 hover:bg-gray-200 hover:border-black border border-transparent text-black"
+        >
+
+          <ArrowLeft strokeWidth={1} /> GO HOME
+        </button>
       </div>
     </div>
   );
