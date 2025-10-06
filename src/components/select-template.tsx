@@ -216,7 +216,8 @@ export function ActivityTemplatePage() {
                       onClick={() => {
                         const link = document.createElement("a");
                         link.href = tpl.image;
-                        link.download = `${tpl.name}.png`;
+                        const timestamp = Date.now();
+                        link.download = `dpbr-${timestamp}.png`;
                         link.click();
 
                         //post to record
