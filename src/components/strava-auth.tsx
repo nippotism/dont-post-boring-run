@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FlipWords } from "./ui/flip-words";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Loader2 } from "lucide-react";
-import { Footer2 } from "./ui/footer";
+import { Loader2 } from "lucide-react";
 
 
 
