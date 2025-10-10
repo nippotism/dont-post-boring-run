@@ -2,9 +2,10 @@ export const dynamic = "force-dynamic"; // pastikan tidak dibuild statis
 
 import { cookies } from "next/headers";
 import ActivityPage from "./ActivityPage";
+import { Metadata } from "next";
 
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "DPBR - Activities",
   description: "List of your activities.",
 };

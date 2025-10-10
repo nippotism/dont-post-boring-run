@@ -1,10 +1,11 @@
 // app/activities/[id]/page.tsx
 import { cookies } from "next/headers";
 import ActivityTemplatePage from "./TemplatePage";
+import { Metadata } from "next";
 
 export const dynamic = "force-dynamic"; // agar tidak dibuild statis
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "DPBR - Template",
   description: "Choose your template for activity details.",
 };
