@@ -10,7 +10,11 @@ export const metadata: Metadata = {
   description: "Choose your template for activity details.",
 };
 
-export default async function ActivityTemplateRoute({ params }: { params: { id: string } }) {
+export default async function ActivityTemplateRoute({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
 
   const { id } = await params;
   const cookieStore = await cookies();
