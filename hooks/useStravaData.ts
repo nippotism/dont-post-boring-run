@@ -9,6 +9,7 @@ export const useStravaData = (athleteId: string | null) => {
 
   
   useEffect(() => {
+    console.log("Athlete ID changed:", athleteId);
     if (!athleteId) return;
 
     const fetchActivities = async () => {
@@ -16,7 +17,8 @@ export const useStravaData = (athleteId: string | null) => {
       setError(null);
 
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/activities?athlete=${encodeURIComponent(athleteId)}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/activities?athlete=${encodeURIComponent(athleteId)}`);
+        console.log("Fetching activities for athlete:", athleteId);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

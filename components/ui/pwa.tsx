@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowDown } from "lucide-react";
 import { useEffect, useState } from "react";
 

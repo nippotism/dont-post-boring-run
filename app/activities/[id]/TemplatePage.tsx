@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import {
@@ -9,34 +11,32 @@ import {
 } from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { type ActivityTemplate } from "@/types/strava";
-import { Link, useParams } from "react-router-dom";
-import { Navbar } from "./ui/navbar";
+import Link from "next/link";
+import { Navbar } from "@/components/ui/navbar";
 import { ArrowDownToLine, Paintbrush} from "lucide-react";
 import { ChromePicker} from "react-color";
 
-export function ActivityTemplatePage() {
-  const { id } = useParams();
+export default function ActivityTemplatePage({
+  id,
+  athleteId,
+}: {
+  id: string;
+  athleteId: string | null;
+}){
   const [templates, setTemplates] = useState<Record<number, ActivityTemplate[]>>({});
   const [tplLoading, setTplLoading] = useState(true);
-  const AthleteId = localStorage.getItem("strava_athlete_id");
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [bgColor, setBgColor] = useState("#ffffff");
   const [submitting, setSubmitting] = useState(false);
-
-
-
-  if (!AthleteId) {
-    window.location.href = "/";
-  }
 
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 8;
 
   const fetchPage = async (p: number, colorParam?: string): Promise<ActivityTemplate[]> => {
-  const url = new URL(`${import.meta.env.VITE_API_URL}/api/activities/${id}/templates`);
+  const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/activities/${id}/templates`);
   url.searchParams.set("page", p.toString());
   url.searchParams.set("limit", limit.toString());
-  url.searchParams.set("athlete", AthleteId || "");
+  url.searchParams.set("athlete", athleteId || "");
   if (colorParam) url.searchParams.set("color", colorParam);
 
 
@@ -103,12 +103,12 @@ export function ActivityTemplatePage() {
       }}
     >
       <div />
-      <Navbar />
+      <Navbar/>
 
       <div className="container mx-auto px-6 py-8">
         <div className="flex flex-row justify-between items-center font-crimson mb-3 text-2xl">
           <Link
-            to="/activities"
+            href="/activities"
             className="hover:underline hover:text-gray-800"
           >
             <svg

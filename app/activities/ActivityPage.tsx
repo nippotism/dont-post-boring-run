@@ -1,5 +1,7 @@
-import {useState} from "react";
-import { Link } from "react-router-dom";
+"use client";
+
+import {useEffect, useState} from "react";
+import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Pagination,
@@ -11,23 +13,23 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { PaceCounter, timeConverter } from "@/hooks/logic";
 import { useStravaData } from "@/hooks/useStravaData";
-import { Navbar } from "./ui/navbar";
+import { Navbar } from "@/components/ui/navbar";
+import { Crimson_Text } from "next/font/google";
+
+
+const crimson = Crimson_Text({
+    subsets: ['latin'],
+    variable: '--font-crimson',
+    weight: ['400', '600', '700'],
+});
 
 
 
+export default function ActivityPage({ stravaSession }: { stravaSession: string }) {
 
+    
 
-
-export function ActivityPage() {
-
-    const AthleteId = localStorage.getItem("strava_athlete_id");
-
-  // redirect early if no athlete
-  if (!AthleteId) {
-    window.location.href = "/";
-  }
-
-    const { activities, loading} = useStravaData(AthleteId!);
+  const { activities, loading} = useStravaData(stravaSession);
 
 
 
@@ -52,7 +54,7 @@ export function ActivityPage() {
       {/* Optional overlay to darken the background */}
       <div/>
       {/* Navbar */}
-      <Navbar />
+      <Navbar/>
       {/* Activities */}
       <div className="container mx-auto px-6 py-8">
         <h2 className="text-2xl mb-6 font-crimson">CHOOSE YOUR ACTIVITY</h2>
@@ -88,13 +90,17 @@ export function ActivityPage() {
             ))
             : // 🔹 Show real activities when loaded
             activityShow.map((activity) => (
-              <Link key={activity.id} to={`/activities/${activity.id}`}>
+                <Link
+                key={activity.id}
+                href={`/activities/${activity.id}`}
+                className="no-underline"
+                >
                 <Card
                 key={activity.id}
                 className="flex flex-col rounded-none hover:bg-black/70 hover:text-white transition-colors duration-300 hover:border-white border border-transparent"
                 >
                 <CardHeader>
-                    <CardTitle className="font-crimson text-3xl font-light">
+                    <CardTitle className="font-crimson text-3xl font-extralight">
                     {activity.name}
                     </CardTitle>
                     <p className="text-sm text-muted-foreground">
@@ -138,7 +144,7 @@ export function ActivityPage() {
                     </div>
                 </CardContent>
                 </Card>
-              </Link>
+                </Link>
             ))}
         </div>
                <Pagination className="mt-4 -mb-6">

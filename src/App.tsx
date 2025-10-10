@@ -4,8 +4,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import { ActivityPage } from "./components/select-activites";
-import { ActivityTemplatePage } from "./components/select-template";
+import { ActivityPage } from "../components/select-activites";
+import { ActivityTemplatePage } from "../components/select-template";
 
 const queryClient = new QueryClient();
 
