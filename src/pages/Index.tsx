@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { StravaAuth } from "@/components/strava-auth";
-import InstallPWA from "@/components/ui/pwa";
 import { Footer2 } from "@/components/ui/footer";
 // import { StravaDeauth } from "@/components/strava_deauth";
 // import { StravaPostGenerator } from "@/components/strava-post-generator";
@@ -26,8 +25,7 @@ const Index = () => {
       <div className="container mx-auto flex-grow space-y-8">
         {!accessToken && (
           <div className="max-w-md mx-auto">
-            <InstallPWA />
-            <StravaAuth onAuthSuccess={setAccessToken}/>
+            <StravaAuth/>
           </div>
         )}
       </div>
