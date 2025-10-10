@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
@@ -13,15 +13,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { PaceCounter, timeConverter } from "@/hooks/logic";
 import { useStravaData } from "@/hooks/useStravaData";
-import { Navbar } from "@/components/ui/navbar";
-import { Crimson_Text } from "next/font/google";
-
-
-const crimson = Crimson_Text({
-    subsets: ['latin'],
-    variable: '--font-crimson',
-    weight: ['400', '600', '700'],
-});
+import { Navbar } from "@/components/ui/navbar";    
 
 
 
