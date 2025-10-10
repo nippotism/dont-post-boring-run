@@ -221,7 +221,7 @@ export default function ActivityTemplatePage({
                         link.click();
 
                         //post to record
-                        fetch(`${import.meta.env.VITE_API_URL}/api/records`, {
+                        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/records`, {
                           method: "POST",
                           headers: {
                             "Content-Type": "application/json",
