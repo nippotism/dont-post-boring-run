@@ -6,6 +6,17 @@ export default function middleware(request: NextRequest) {
 
   console.log("🛰️ Middleware triggered for:", url.pathname);
   console.log("🍪 strava_session cookie:", cookie?.value);
+
+  if (!cookie) {
+    console.log("🚫 No session, redirecting to /");
+    // Gunakan URL absolut (WAJIB)
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  console.log("✅ Cookie found, continue to page");
   return NextResponse.next();
 }
 
+export const config = {
+  matcher: ["/activities/:path*"],
+};
