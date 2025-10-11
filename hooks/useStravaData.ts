@@ -17,7 +17,7 @@ export const useStravaData = (athleteId: string | null) => {
       setError(null);
 
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/activities?athlete=${encodeURIComponent(athleteId)}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/activities?athlete=${encodeURIComponent(athleteId)}`,{ credentials: "include" });
         console.log("Fetching activities for athlete:", athleteId);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

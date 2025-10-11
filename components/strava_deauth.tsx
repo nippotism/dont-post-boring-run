@@ -25,11 +25,11 @@ export function StravaDeauth() {
       // Panggil backend API untuk deauth
       await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/deauthorize/${encodeURIComponent(athleteId)}`,
-        { method: "POST" }
+        { method: "POST", credentials: "include" }
       );
 
       // Hapus cookies di Next
-      await fetch("/api/logout", { method: "POST" });
+      await fetch("/api/logout", { method: "POST", credentials: "include" });
 
       window.location.href = "/";
     } catch (err) {

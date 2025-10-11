@@ -40,7 +40,7 @@ export default function ActivityTemplatePage({
   if (colorParam) url.searchParams.set("color", colorParam);
 
 
-  const res = await fetch(url.toString());
+  const res = await fetch(url.toString(),{ credentials: "include" });
   const data = await res.json();
   return data.templates || [];
   };
@@ -223,6 +223,7 @@ export default function ActivityTemplatePage({
                         //post to record
                         fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/records`, {
                           method: "POST",
+                          credentials: "include",
                           headers: {
                             "Content-Type": "application/json",
                           },
